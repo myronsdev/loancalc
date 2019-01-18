@@ -3,13 +3,11 @@ document
   .getElementById("loan-form")
   .addEventListener("submit", calculateResults);
 
-// Calculate results
-
+// calculate results
 function calculateResults(e) {
   console.log("testing");
 
   // UI variables
-
   const UIamount = document.getElementById("amount");
   const UIinterest = document.getElementById("interest");
   const UIyears = document.getElementById("years");
@@ -17,11 +15,12 @@ function calculateResults(e) {
   const UItotalPayment = document.getElementById("total-payment");
   const UItotalInterest = document.getElementById("total-interest");
 
+  // calculations with variables
   const principle = parseFloat(UIamount.value);
   const calculatedInterest = parseFloat(UIinterest.value) / 100 / 12;
   const calculatedPayments = parseFloat(UIyears.value) * 12;
 
-  // Compute monthly payment
+  // compute monthly payment
   const x = Math.pow(1 + calculatedInterest, calculatedPayments);
   const monthly = (principle * x * calculatedInterest) / (x - 1);
 
@@ -32,7 +31,35 @@ function calculateResults(e) {
       2
     );
   } else {
-    console.log("please check inputs");
+    showError("Please check your numbers");
   }
   e.preventDefault();
+}
+
+// showError func
+function showError(error) {
+  // create a div
+  const errorDiv = document.createElement("div");
+
+  // get elements
+  const card = document.querySelector(".card");
+  const heading = document.querySelector(".heading");
+
+  // add class
+  errorDiv.className = "alert alert-danger";
+
+  // create text node and append to div
+  errorDiv.appendChild(document.createTextNode(error));
+
+  // insert error
+  card.insertBefore(errorDiv, heading);
+
+  // clear error after 3 seconds
+  setTimeout(clearError, 3000);
+}
+
+// clearError func
+
+function clearError() {
+  document.querySelector(".alert").remove();
 }
